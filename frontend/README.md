@@ -1,6 +1,6 @@
 # SafeShield Frontend - Installation & Setup
 
-This frontend connects to the FastAPI backend at http://127.0.0.1:8000
+This frontend connects to the FastAPI backend at http://127.0.0.1:8000, including native URL analysis.
 
 ## Prerequisites
 
@@ -41,6 +41,7 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 2. You should see "● Connected" in the top-right corner
 3. Navigate to "Message Scanner"
 4. Test with: "URGENT! Your bank account has expired. Click here to verify."
+5. Select **Analyze URL** to open the integrated URL checker.
 5. You should see the analysis result from the backend
 
 ## File Structure
@@ -57,7 +58,9 @@ frontend/
 │       ├── Dashboard.jsx
 │       ├── Dashboard.css
 │       ├── MessageScanner.jsx
-│       └── MessageScanner.css
+│       ├── MessageScanner.css
+│       ├── URLScanner.jsx
+│       └── URLScanner.css
 ├── index.html
 ├── package.json
 └── vite.config.js

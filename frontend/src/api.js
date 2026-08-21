@@ -20,6 +20,17 @@ export const analyzeMessage = async (message) => {
   }
 }
 
+export const analyzeUrl = async (url) => {
+  try {
+    const response = await api.post('/analyze/url', {
+      url: url.trim(),
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { detail: 'Failed to analyze URL' }
+  }
+}
+
 export const getHealth = async () => {
   try {
     const response = await api.get('/health')

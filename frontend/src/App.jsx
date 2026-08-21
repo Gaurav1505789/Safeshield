@@ -2,11 +2,6 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard'
 import MessageScanner from './pages/MessageScanner'
-<<<<<<< HEAD
-import ApkScanner from './pages/ApkScanner'
-=======
-import URLScanner from './pages/URLScanner'
->>>>>>> e8739a5 (fixed url to 55%)
 import { getHealth } from './api'
 
 function App() {
@@ -37,13 +32,6 @@ function App() {
         return <Dashboard onNavigate={setCurrentPage} />
       case 'message':
         return <MessageScanner onNavigate={setCurrentPage} />
-<<<<<<< HEAD
-      case 'apk':
-        return <ApkScanner onNavigate={setCurrentPage} />
-=======
-      case 'url':
-        return <URLScanner onNavigate={setCurrentPage} />
->>>>>>> e8739a5 (fixed url to 55%)
       default:
         return <Dashboard onNavigate={setCurrentPage} />
     }

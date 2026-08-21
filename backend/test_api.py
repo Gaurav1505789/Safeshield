@@ -45,6 +45,19 @@ class SafeShieldAPITest(unittest.TestCase):
         response = self.client.post("/analyze/message", json={"message": "   "})
         self.assertEqual(response.status_code, 400)
 
+    def test_apk_analysis_upload(self):
+        apk_path = "test_apks/Sample.apk"
+        with open(apk_path, "rb") as apk_file:
+            response = self.client.post(
+                "/analyze/apk",
+                files={"file": ("Sample.apk", apk_file, "application/vnd.android.package-archive")},
+            )
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertTrue(data.get("success"))
+        self.assertIn("risk_score", data)
+        self.assertIn("verdict", data)
+
     def test_required_message_categories(self):
         cases = [
             ("Hey, are you coming to college tomorrow?", "Benign"),

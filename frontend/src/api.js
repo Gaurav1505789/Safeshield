@@ -29,4 +29,20 @@ export const getHealth = async () => {
   }
 }
 
+export const analyzeApk = async (file) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await api.post('/analyze/apk', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { detail: 'Failed to analyze APK file' }
+  }
+}
+
 export default api

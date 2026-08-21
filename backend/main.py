@@ -1,10 +1,12 @@
 from datetime import datetime, timezone
+from tempfile import NamedTemporaryFile
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, ConfigDict
 
+from analyzer.apk_analyzer import analyze_apk
 from analyzer.message_analyzer import analyze_message
 from risk_engine import evaluate_message_risk, message_hash
 from database import analyses_collection
@@ -137,6 +139,34 @@ def analyze_message_endpoint(
         model_confidence=analysis.model_confidence,
         rule_confidence=analysis.rule_confidence,
     )
+
+
+@app.post("/analyze/apk")
+async def analyze_apk_endpoint(file: UploadFile = File(...)):
+    if not file.filename or not file.filename.lower().endswith(".apk"):
+        raise HTTPException(
+            status_code=400,
+            detail="Please upload a valid APK file.",
+        )
+
+    with NamedTemporaryFile(suffix=".apk", delete=False) as temp_file:
+        temp_file.write(await file.read())
+        temp_path = temp_file.name
+
+    try:
+        result = analyze_apk(temp_path)
+        if not result.get("success"):
+            raise HTTPException(
+                status_code=400,
+                detail=result.get("error", "APK analysis failed."),
+            )
+        return result
+    finally:
+        try:
+            import os
+            os.unlink(temp_path)
+        except OSError:
+            pass
 
 
 if __name__ == "__main__":

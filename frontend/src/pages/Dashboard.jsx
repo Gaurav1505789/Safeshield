@@ -37,7 +37,7 @@ function Dashboard({ onNavigate }) {
           <button className="action-btn" disabled>
             🖼️ Analyze Image
           </button>
-          <button className="action-btn" disabled>
+          <button className="action-btn" onClick={() => onNavigate('apk')}>
             📦 Analyze APK
           </button>
         </div>

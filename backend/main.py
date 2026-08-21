@@ -12,6 +12,7 @@ from risk_engine import evaluate_message_risk, message_hash
 from database import analyses_collection
 
 
+# cool
 class MessageRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 

@@ -1,0 +1,32 @@
+import axios from 'axios'
+
+const API_BASE_URL = 'http://127.0.0.1:8000'
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+
+export const analyzeMessage = async (message) => {
+  try {
+    const response = await api.post('/analyze/message', {
+      message: message.trim(),
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { detail: 'Failed to analyze message' }
+  }
+}
+
+export const getHealth = async () => {
+  try {
+    const response = await api.get('/health')
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
+
+export default api

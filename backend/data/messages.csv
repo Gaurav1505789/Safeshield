@@ -1,0 +1,29 @@
+text,label,category
+"Can we meet tomorrow at 10 AM?",0,benign
+"The quarterly review is scheduled for Friday morning.",0,benign
+"Hi team, please review the attached invoice before lunch.",0,benign
+"Your KYC verification has expired. Reactivate now before midnight.",2,phishing
+"URGENT! Your bank account is locked. Verify your identity immediately.",2,phishing
+"Action required: update your password to avoid account suspension.",2,phishing
+"Congratulations! You have won a prize. Claim your reward today.",3,scam
+"Your refund is approved. Click here to receive the transfer now.",3,scam
+"Limited offer: claim your free gift before the promotion ends.",3,scam
+"Download this APK to receive your refund immediately.",4,malicious_download
+"Install the provided app to unlock your account recovery.",4,malicious_download
+"This update app is required to complete the verification process.",4,malicious_download
+"We detected unusual activity. Send your OTP to confirm your identity.",5,credential_theft
+"Your account is blocked. Share your login details to restore access.",5,credential_theft
+"Verify your password now or your account will be suspended.",5,credential_theft
+"Your invoice is overdue. Pay the balance with a bank transfer today.",6,financial_fraud
+"Action needed: provide your card details to process the refund.",6,financial_fraud
+"A security alert requires you to confirm your bank account.",6,financial_fraud
+"The office is closed today due to weather conditions.",0,benign
+"The meeting has been moved to Thursday at 2 PM.",0,benign
+"Please confirm whether the shipment will arrive tomorrow.",0,benign
+"Your package is delayed. Click to verify the delivery address.",1,spam
+"Your account has an update pending. Review the notice now.",1,spam
+"Important notice: we sent a secure document for approval.",1,spam
+"We need your SSN and ID for the final payout process.",6,financial_fraud
+"You have won a cashback reward. Provide your details to claim it.",3,scam
+"This alert is for internal staff only, please verify your credentials.",5,credential_theft
+"Install the app to enable secure banking access.",4,malicious_download

@@ -1,0 +1,29 @@
+text,label,category,length,url_count,urls,email_count,emails,phone_count,phones,suspicious_keywords,repeated_character_count,excessive_punctuation_count,uppercase_ratio,digit_ratio,has_url,has_email,has_phone
+Can we meet tomorrow at 10 AM?,0,benign,30,0,,0,,0,,,0,0,0.1429,0.0667,False,False,False
+The quarterly review is scheduled for Friday morning.,0,benign,53,0,,0,,0,,,0,0,0.0444,0.0,False,False,False
+"Hi team, please review the attached invoice before lunch.",0,benign,57,0,,0,,0,,financial:invoice,0,0,0.0213,0.0,False,False,False
+Your KYC verification has expired. Reactivate now before midnight.,2,phishing,66,0,,0,,0,,kyc:kyc | urgent:now,0,0,0.0893,0.0,False,False,False
+URGENT! Your bank account is locked. Verify your identity immediately.,2,phishing,70,0,,0,,0,,financial:bank | urgent:immediately | urgent:urgent,0,0,0.1379,0.0,False,False,False
+Action required: update your password to avoid account suspension.,2,phishing,66,0,,0,,0,,credential:password,0,0,0.0179,0.0,False,False,False
+Congratulations! You have won a prize. Claim your reward today.,3,scam,63,0,,0,,0,,reward:claim your reward | reward:congratulations | reward:prize | reward:reward | urgent:today,0,0,0.0588,0.0,False,False,False
+Your refund is approved. Click here to receive the transfer now.,3,scam,64,0,,0,,0,,financial:refund | urgent:now,0,0,0.0385,0.0,False,False,False
+Limited offer: claim your free gift before the promotion ends.,3,scam,62,0,,0,,0,,reward:free gift,0,0,0.0196,0.0,False,False,False
+Download this APK to receive your refund immediately.,4,malicious_download,53,0,,0,,0,,download:apk | download:download | financial:refund | urgent:immediately,0,0,0.0889,0.0,False,False,False
+Install the provided app to unlock your account recovery.,4,malicious_download,57,0,,0,,0,,download:install,0,0,0.0208,0.0,False,False,False
+This update app is required to complete the verification process.,4,malicious_download,65,0,,0,,0,,,0,0,0.0182,0.0,False,False,False
+We detected unusual activity. Send your OTP to confirm your identity.,5,credential_theft,69,0,,0,,0,,credential:otp,0,0,0.0877,0.0,False,False,False
+Your account is blocked. Share your login details to restore access.,5,credential_theft,68,0,,0,,0,,credential:login details,0,0,0.0357,0.0,False,False,False
+Verify your password now or your account will be suspended.,5,credential_theft,59,0,,0,,0,,credential:password | credential:verify your password | urgent:now,0,0,0.0204,0.0,False,False,False
+Your invoice is overdue. Pay the balance with a bank transfer today.,6,financial_fraud,68,0,,0,,0,,financial:bank | financial:invoice | urgent:today,0,0,0.0364,0.0,False,False,False
+Action needed: provide your card details to process the refund.,6,financial_fraud,63,0,,0,,0,,financial:refund,0,0,0.0192,0.0,False,False,False
+A security alert requires you to confirm your bank account.,6,financial_fraud,59,0,,0,,0,,financial:bank,0,0,0.0204,0.0,False,False,False
+The office is closed today due to weather conditions.,0,benign,53,0,,0,,0,,urgent:today,0,0,0.0227,0.0,False,False,False
+The meeting has been moved to Thursday at 2 PM.,0,benign,47,0,,0,,0,,,0,0,0.1111,0.0213,False,False,False
+Please confirm whether the shipment will arrive tomorrow.,0,benign,57,0,,0,,0,,,0,0,0.0204,0.0,False,False,False
+Your package is delayed. Click to verify the delivery address.,1,spam,62,0,,0,,0,,,0,0,0.0392,0.0,False,False,False
+Your account has an update pending. Review the notice now.,1,spam,58,0,,0,,0,,urgent:now,0,0,0.0426,0.0,False,False,False
+Important notice: we sent a secure document for approval.,1,spam,57,0,,0,,0,,,0,0,0.0213,0.0,False,False,False
+We need your SSN and ID for the final payout process.,6,financial_fraud,53,0,,0,,0,,,0,0,0.1429,0.0,False,False,False
+You have won a cashback reward. Provide your details to claim it.,3,scam,65,0,,0,,0,,reward:reward,0,0,0.0385,0.0,False,False,False
+"This alert is for internal staff only, please verify your credentials.",5,credential_theft,70,0,,0,,0,,credential:credentials,0,0,0.0172,0.0,False,False,False
+Install the app to enable secure banking access.,4,malicious_download,48,0,,0,,0,,download:install | financial:bank,0,0,0.025,0.0,False,False,False

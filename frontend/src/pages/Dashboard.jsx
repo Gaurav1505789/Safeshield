@@ -31,7 +31,7 @@ function Dashboard({ onNavigate }) {
           <button className="action-btn" onClick={() => onNavigate('message')}>
             📧 Analyze Message
           </button>
-          <button className="action-btn" disabled>
+          <button className="action-btn" onClick={() => onNavigate('url')}>
             🌐 Analyze URL
           </button>
           <button className="action-btn" disabled>

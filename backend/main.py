@@ -1,15 +1,13 @@
 from datetime import datetime, timezone
-from tempfile import NamedTemporaryFile
-from uuid import uuid4
-import sys
 from pathlib import Path
+import sys
+from uuid import uuid4
 
 BACKEND_DIR = Path(__file__).resolve().parent
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
-
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, ConfigDict
 
@@ -152,8 +150,8 @@ def analyze_message_endpoint(
     }
 
     try:
-        analyses_collection.insert_one(analysis_document)
-
+        if analyses_collection is not None:
+            analyses_collection.insert_one(analysis_document)
     except Exception as error:
         raise HTTPException(
             status_code=503,
@@ -228,40 +226,11 @@ def analyze_url_endpoint(payload: URLRequest) -> URLAnalysisResponse:
     )
 
 
-@app.post("/analyze/apk")
-async def analyze_apk_endpoint(file: UploadFile = File(...)):
-    if not file.filename or not file.filename.lower().endswith(".apk"):
-        raise HTTPException(
-            status_code=400,
-            detail="Please upload a valid APK file.",
-        )
-
-    with NamedTemporaryFile(suffix=".apk", delete=False) as temp_file:
-        temp_file.write(await file.read())
-        temp_path = temp_file.name
-
-    try:
-        result = analyze_apk(temp_path)
-        if not result.get("success"):
-            raise HTTPException(
-                status_code=400,
-                detail=result.get("error", "APK analysis failed."),
-            )
-        return result
-    finally:
-        try:
-            import os
-            os.unlink(temp_path)
-        except OSError:
-            pass
-
-
 if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(
-        "main:app",
+        app,
         host="127.0.0.1",
         port=8000,
-        reload=True,
     )

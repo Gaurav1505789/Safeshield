@@ -13,9 +13,9 @@ MODEL_DIR = URL_CHECKER_DIR / "model"
 if str(URL_CHECKER_DIR) not in sys.path:
     sys.path.insert(0, str(URL_CHECKER_DIR))
 
-from url_checker.dataset.utils.url_features import extract_url_features
-from url_checker.dataset.utils.url_normalize import normalize_url
-from url_checker.dataset.utils.url_rules import rule_check
+from dataset.utils.url_features import extract_url_features
+from dataset.utils.url_normalize import normalize_url
+from dataset.utils.url_rules import rule_check
 
 
 @dataclass(frozen=True)

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard'
 import MessageScanner from './pages/MessageScanner'
+
 import URLScanner from './pages/URLScanner'
 import ApkScanner from './pages/ApkScanner'
 import { getHealth } from './api'
@@ -91,7 +92,6 @@ function App() {
         <button
           className={`nav-btn ${currentPage === 'url' ? 'active' : ''}`}
           onClick={() => setCurrentPage('url')}
-         
         >
           URL Scanner
         </button>

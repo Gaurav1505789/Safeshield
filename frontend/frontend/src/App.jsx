@@ -126,7 +126,7 @@ function App() {
       <main className="app-main">
         {!backendConnected && (
           <div className="error-banner">
-            ⚠️ Backend not connected. Please ensure the FastAPI server is running on http://127.0.0.1:8000
+            ⚠️ Backend not connected. Please ensure the FastAPI service is available.
           </div>
         )}
         {renderPage()}

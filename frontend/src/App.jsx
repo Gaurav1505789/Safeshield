@@ -230,7 +230,7 @@ function App() {
           <div className="error-banner">
             ⚠️ Backend not connected.
             Please ensure the FastAPI server is running
-            on http://127.0.0.1:8000
+            through the deployed API
           </div>
         )}
 

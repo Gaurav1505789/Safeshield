@@ -10,10 +10,11 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import FeatureUnion, Pipeline
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+ML_DIR = Path(__file__).resolve().parent
+BASE_DIR = ML_DIR.parent
 MESSAGES_FILE = BASE_DIR / "data" / "messages.csv"
 SPAM_FILE = BASE_DIR / "data" / "spam.csv"
-MODEL_FILE = BASE_DIR / "ml" / "models" / "message_model.joblib"
+MODEL_FILE = ML_DIR / "models" / "message_model.joblib"
 
 
 def _normalize_label(value: object) -> str:
@@ -21,7 +22,17 @@ def _normalize_label(value: object) -> str:
 
 
 def load_dataset() -> pd.DataFrame:
-    messages = pd.read_csv(MESSAGES_FILE, usecols=["text", "category"])
+    messages = pd.read_csv(MESSAGES_FILE)
+    column_names = {str(column).strip().lower(): column for column in messages.columns}
+    text_column = column_names.get("text") or column_names.get("message")
+    target_column = column_names.get("label") or column_names.get("category")
+    if text_column is None or target_column is None:
+        raise ValueError(
+            f"{MESSAGES_FILE} must contain a text/message column and either a label or category column."
+        )
+    messages = messages[[text_column, target_column]].rename(
+        columns={text_column: "text", target_column: "category"}
+    )
     messages["text"] = messages["text"].fillna("").astype(str).str.normalize("NFKC").str.replace(r"\s+", " ", regex=True).str.strip()
     messages["category"] = messages["category"].fillna("unknown").map(_normalize_label)
 

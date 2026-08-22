@@ -1,0 +1,14 @@
+text,true_label,predicted_label,predicted_risk_score,risk_level,error_type,reasons,indicators
+Congratulations! You have won a prize. Claim your reward today.,1,0,20,LOW,false_negative,Urgent language detected. | Financial or reward language detected.,financial | urgent_language
+Limited offer: claim your free gift before the promotion ends.,1,0,0,LOW,false_negative,,
+This update app is required to complete the verification process.,1,0,0,LOW,false_negative,,
+Your invoice is overdue. Pay the balance with a bank transfer today.,1,0,15,LOW,false_negative,Urgent language detected. | Banking-related language detected.,banking | urgent_language
+Action needed: provide your card details to process the refund.,1,0,15,LOW,false_negative,Banking-related language detected. | Financial or reward language detected.,banking | financial
+A security alert requires you to confirm your bank account.,1,0,5,LOW,false_negative,Banking-related language detected.,banking
+The office is closed today due to weather conditions.,0,1,25,MEDIUM,false_positive,Urgent language detected. | Threat of account suspension or closure detected.,threat | urgent_language
+Your package is delayed. Click to verify the delivery address.,1,0,10,LOW,false_negative,Link or verification action detected.,link
+Your account has an update pending. Review the notice now.,1,0,15,LOW,false_negative,Urgent language detected. | Banking-related language detected.,banking | urgent_language
+Important notice: we sent a secure document for approval.,1,0,0,LOW,false_negative,,
+We need your SSN and ID for the final payout process.,1,0,0,LOW,false_negative,,
+You have won a cashback reward. Provide your details to claim it.,1,0,10,LOW,false_negative,Financial or reward language detected.,financial
+"This alert is for internal staff only, please verify your credentials.",1,0,10,LOW,false_negative,Link or verification action detected.,link

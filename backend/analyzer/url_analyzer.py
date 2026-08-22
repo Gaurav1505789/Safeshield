@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from functools import lru_cache
 from pathlib import Path
 import sys
 
@@ -17,9 +18,6 @@ from dataset.utils.url_features import extract_url_features
 from dataset.utils.url_normalize import normalize_url
 from dataset.utils.url_rules import rule_check
 
-# Number of features the current model expects.  When a saved model was trained
-# on a different feature count, we pad or truncate at inference time so the
-# backend keeps running even before a retrain.
 _EXPECTED_FEATURE_COUNT: int | None = None
 
 
@@ -67,7 +65,6 @@ def _load_model():
         model_path = MODEL_DIR / "url_model.pkl"
     try:
         _model = joblib.load(model_path)
-        # Probe expected feature count from the model if available
         feature_names = getattr(_model, "feature_names_in_", None)
         if feature_names is not None:
             _EXPECTED_FEATURE_COUNT = len(feature_names)
@@ -87,24 +84,17 @@ def _risk_level(score: int) -> str:
 
 
 def _align_features(features: list, model) -> list:
-    """Pad or trim the feature vector to match what the model was trained on.
-
-    This migration fallback lets an old model (trained on fewer features) keep
-    working until it is retrained on the new 25-feature vector.  New models
-    trained on 25 features will pass through unchanged.
-    """
+    """Pad or trim the feature vector to match what the model was trained on."""
     feature_names = getattr(model, "feature_names_in_", None)
     if feature_names is None:
-        return features  # model doesn't advertise shape — pass as-is
+        return features
 
     expected = len(feature_names)
     current = len(features)
     if current == expected:
         return features
     if current < expected:
-        # Zero-pad: new features default to 0 (neutral/unknown)
         return features + [0.0] * (expected - current)
-    # Trim: drop trailing features (old model doesn't know about them)
     return features[:expected]
 
 
@@ -144,21 +134,15 @@ def _confidence_weighted_blend(
     model_confidence_pct: int,
     model_unavailable: bool = False,
 ) -> float:
-    """Blend ML probability and rule score using model-confidence as the weight.
+    """Blend ML probability (60% weight) and rule score (40% weight) smoothly.
 
-    - When model is unavailable / confidence=0: rules get full weight (1.0).
-      This ensures the backend keeps working pre-retrain and still correctly
-      flags dangerous URLs based on heuristics alone.
-    - When model is highly confident (≥ 85 %): ML dominates (weight up to 0.80).
-    - When model is uncertain: rules contribute more (ML weight down to 0.50).
-
-    Returns combined probability in [0.0, 1.0].
+    - If model is unavailable: 100% rules.
+    - Otherwise, baseline is 60% ML / 40% Rules, dynamically scaling with ML confidence.
     """
     if model_unavailable or model_confidence_pct == 0:
-        # No usable ML signal — trust rules entirely
         return min(rule_score, 1.0)
 
-    # Scale model weight between 0.50 (uncertain) and 0.80 (very confident)
+    # 60/40 baseline dynamic scaling based on confidence
     ml_weight = 0.50 + (model_confidence_pct / 100.0) * 0.30
     ml_weight = max(0.50, min(0.80, ml_weight))
     rule_weight = 1.0 - ml_weight
@@ -166,24 +150,14 @@ def _confidence_weighted_blend(
     return min(combined, 1.0)
 
 
-def _derive_rule_score_from_reasons(
-    reasons: list[str],
-    rule_score_from_rules: float,
-) -> float:
-    """Return the rule score provided by rule_check directly.
-
-    This replaces the old _rule_score() function which re-computed heuristics
-    that rule_check() already calculated, causing double-penalty issues.
-    """
-    return rule_score_from_rules
-
-
+@lru_cache(maxsize=4096)
 def analyze_url(url: str) -> URLRiskAnalysis:
+    """Analyze a URL for risk, returning a frozen, cached URLRiskAnalysis object."""
     info = normalize_url(url)
     normalized_url = info.get("normalized_url", "")
     netloc = info.get("netloc", "")
 
-    # Fast-path for trusted whitelist domains
+    # Fast-path for trusted whitelist domains (0ms response)
     if _is_whitelisted(netloc):
         return URLRiskAnalysis(
             normalized_url=normalized_url,
@@ -201,7 +175,6 @@ def analyze_url(url: str) -> URLRiskAnalysis:
             domain_valid=True,
         )
 
-    # rule_check now returns a 5-tuple (added rule_score at index 4)
     rule_result = rule_check(info)
     suspicious = rule_result[0]
     reasons = rule_result[1]
@@ -214,7 +187,6 @@ def analyze_url(url: str) -> URLRiskAnalysis:
         _load_model(), features
     )
 
-    # Confidence-weighted blending — no hard 60/40 split
     model_unavailable = model_prediction == "unavailable"
     combined_probability = _confidence_weighted_blend(
         model_probability, rule_score, model_confidence,
@@ -223,7 +195,6 @@ def analyze_url(url: str) -> URLRiskAnalysis:
 
     score = round(combined_probability * 100)
 
-    # When model is unavailable and rules find nothing, ensure LOW (cap at 24)
     if model_unavailable and not suspicious:
         score = min(score, 24)
 
@@ -256,7 +227,6 @@ def analyze_url(url: str) -> URLRiskAnalysis:
         "Continue only if you recognise the website and expected this link."
     )
 
-    # rule_confidence: continuous scale derived from the rule_score
     rule_confidence = min(100, round(rule_score * 100) + 30)
 
     return URLRiskAnalysis(

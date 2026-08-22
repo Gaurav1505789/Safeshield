@@ -10,17 +10,12 @@ load_dotenv(BASE_DIR / ".env")
 MONGODB_URI = os.getenv("MONGODB_URI")
 MONGODB_DATABASE = os.getenv("MONGODB_DATABASE", "safeshield")
 
-if not MONGODB_URI:
-    raise RuntimeError("MONGODB_URI is not configured in .env")
-
-client = MongoClient(
-    MONGODB_URI,
-    serverSelectionTimeoutMS=5000
-)
-
-db = client[MONGODB_DATABASE]
-
-analyses_collection = db["analyses"]
+client = None
+analyses_collection = None
+if MONGODB_URI:
+    client = MongoClient(MONGODB_URI, serverSelectionTimeoutMS=5000)
+    db = client[MONGODB_DATABASE]
+    analyses_collection = db["analyses"]
 
 
 def test_database_connection():

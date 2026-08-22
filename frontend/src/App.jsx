@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Dashboard from './pages/Dashboard'
 import MessageScanner from './pages/MessageScanner'
+import URLScanner from './pages/URLScanner'
+import ApkScanner from './pages/ApkScanner'
 import { getHealth } from './api'
 
 function App() {
@@ -32,6 +34,10 @@ function App() {
         return <Dashboard onNavigate={setCurrentPage} />
       case 'message':
         return <MessageScanner onNavigate={setCurrentPage} />
+      case 'url':
+        return <URLScanner onNavigate={setCurrentPage} />
+      case 'apk':
+        return <ApkScanner onNavigate={setCurrentPage} />
       default:
         return <Dashboard onNavigate={setCurrentPage} />
     }
@@ -85,7 +91,6 @@ function App() {
         <button
           className={`nav-btn ${currentPage === 'url' ? 'active' : ''}`}
           onClick={() => setCurrentPage('url')}
-          disabled
         >
           URL Scanner
         </button>
@@ -99,7 +104,6 @@ function App() {
         <button
           className={`nav-btn ${currentPage === 'apk' ? 'active' : ''}`}
           onClick={() => setCurrentPage('apk')}
-          disabled
         >
           APK Scanner
         </button>

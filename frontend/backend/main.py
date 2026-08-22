@@ -130,7 +130,7 @@ def root() -> dict[str, str]:
 def health_check() -> dict[str, str]:
     return {
         "status": "ok",
-        "service": "SafeShield Backend",
+        "service": "SafeShield FastAPI",
         "version": "1.0.0",
     }
 

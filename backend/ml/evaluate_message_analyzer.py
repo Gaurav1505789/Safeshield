@@ -25,7 +25,16 @@ def _normalize_label(value: object) -> int:
     normalized = str(value).strip().lower()
     if normalized in {"0", "0.0", "ham", "benign"}:
         return 0
-    if normalized in {"1", "1.0", "spam", "malicious", "suspicious"}:
+    if normalized in {
+        "1",
+        "1.0",
+        "spam",
+        "malicious",
+        "suspicious",
+        "smishing",
+        "phishing",
+        "scam",
+    }:
         return 1
 
     try:
@@ -50,11 +59,15 @@ def load_dataset() -> tuple[pd.DataFrame, Path]:
         raise FileNotFoundError(f"No message dataset found at {EVAL_DATASET} or {FALLBACK_DATASET}.")
 
     dataset = pd.read_csv(dataset_path)
-    text_column = "text" if "text" in dataset.columns else "message" if "message" in dataset.columns else None
-    if text_column is None or "label" not in dataset.columns:
+    column_names = {str(column).strip().lower(): column for column in dataset.columns}
+    text_column = column_names.get("text") or column_names.get("message")
+    label_column = column_names.get("label") or column_names.get("category")
+    if text_column is None or label_column is None:
         raise ValueError(f"{dataset_path} must contain a text/message column and a label column.")
 
-    dataset = dataset[[text_column, "label"]].rename(columns={text_column: "text"}).copy()
+    dataset = dataset[[text_column, label_column]].rename(
+        columns={text_column: "text", label_column: "label"}
+    ).copy()
     dataset["text"] = dataset["text"].fillna("").astype(str)
     dataset["true_label"] = dataset["label"].map(_normalize_label)
     dataset = dataset[dataset["text"].str.strip().ne("")].reset_index(drop=True)

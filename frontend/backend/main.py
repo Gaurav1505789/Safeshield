@@ -108,6 +108,14 @@ app.add_middleware(
 )
 
 
+@app.middleware("http")
+async def normalize_api_prefix(request, call_next):
+    path = request.scope.get("path", "")
+    if path == "/api" or path.startswith("/api/"):
+        request.scope["path"] = path[4:] or "/"
+    return await call_next(request)
+
+
 @app.get("/")
 def root() -> dict[str, str]:
     return {

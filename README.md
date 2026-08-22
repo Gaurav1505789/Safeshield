@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SafeShield Frontend - Installation & Setup
 
 This frontend connects to the FastAPI backend at http://127.0.0.1:8000, including native URL analysis.
@@ -74,7 +73,6 @@ The backend is configured to accept requests from:
 - http://127.0.0.1:3000
 
 If you change the frontend port, update the CORS in `backend/main.py`.
-=======
 # SafeShield
 
 SafeShield is a local-first cyber-risk analysis application for user-initiated inspection of suspicious messages, URLs, and Android APK files. It combines deterministic rules, optional machine-learning models, explainable findings, and a React interface backed by FastAPI.
@@ -162,7 +160,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000). The backend OpenAPI UI is available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
-The frontend API base URL is currently hard-coded to `http://127.0.0.1:8000` in `frontend/src/api.js`. If it changes, update the backend CORS configuration in `backend/main.py` as well.
+The frontend uses the same-origin `/api` base URL in production. Local development may use the Vite proxy or set `VITE_API_BASE_URL` explicitly.
 
 ## Configuration
 
@@ -257,4 +255,3 @@ The extension is a Manifest V3 popup prototype. To load it in Chrome, open `chro
 ## License
 
 This project is currently intended for educational and prototype use in a cybersecurity context.
->>>>>>> 77cc4f6aaa2cb99b5d850849d631016dc9ab77fa

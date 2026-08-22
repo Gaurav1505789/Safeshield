@@ -1,11 +1,11 @@
 # SafeShield Frontend - Installation & Setup
 
-This frontend connects to the FastAPI backend at http://127.0.0.1:8000, including native URL analysis.
+This frontend connects to the FastAPI backend through the same-origin `/api` path in production, including native URL analysis.
 
 ## Prerequisites
 
 - Node.js 16+ and npm/yarn/pnpm
-- Backend running on http://127.0.0.1:8000
+- Backend running locally on port 8000 for development
 
 ## Installation Steps
 

@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const API_BASE_URL = '/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || (
+  import.meta.env.DEV ? 'http://127.0.0.1:8000' : '/api'
+)
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -53,6 +55,17 @@ export const analyzeApk = async (file) => {
     return response.data
   } catch (error) {
     throw error.response?.data || { detail: 'Failed to analyze APK file' }
+  }
+}
+
+export const analyzeApkUrl = async (url) => {
+  try {
+    const response = await api.post('/analyze/apk-url', {
+      url,
+    })
+    return response.data
+  } catch (error) {
+    throw error.response?.data || { detail: 'Failed to preview APK URL' }
   }
 }
 

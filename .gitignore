@@ -1,0 +1,28 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Logs
+*.log
+
+# ML generated files
+*.pkl
+*.joblib
+
+# Local APK test artifacts
+*.apk

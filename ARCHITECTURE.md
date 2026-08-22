@@ -106,7 +106,9 @@ Message and URL analyses are optionally persisted to MongoDB. Message plaintext 
 - `backend/ml/build_message_dataset.py`: builds message feature data.
 - `backend/ml/train_message_model.py`: trains and saves the message model.
 - `backend/ml/test_message_model.py`: model smoke test.
-- `backend/data/`: curated messages, engineered features, and spam corpus inputs.
+- `backend/data/messages.csv`: curated message data.
+- `backend/data/messages_features.csv`: engineered message features.
+- `backend/data/spam.csv`: spam corpus input.
 - `backend/ml/models/message_model.joblib`: generated runtime artifact when training has been run.
 
 ### URL Checker

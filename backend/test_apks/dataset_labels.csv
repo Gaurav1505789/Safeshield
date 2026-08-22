@@ -1,0 +1,8 @@
+
+filename,category,path,source,status,notes
+F-Droid.apk,unverified,benign/F-Droid.apk,unknown,unverified,"Only keep in benign if it is confirmed to be the official F-Droid release from a trusted source."
+NetMirror.apk,unverified,benign/NetMirror.apk,unknown,unverified,"Not independently verified as legitimate. Keep here until source and app identity are confirmed."
+CapCut Pro Latest Version 2025.apk,unverified,unverified/CapCut Pro Latest Version 2025.apk,unknown,unverified,"Suspicious or modified app name; leave in unverified unless independently confirmed."
+capcut-13.8.1 (1).apk,unverified,unverified/capcut-13.8.1 (1).apk,unknown,unverified,"Possible alternate or modified CapCut build; do not treat as benign."
+pikashow_v94_official.apk,unverified,unverified/pikashow_v94_official.apk,unknown,unverified,"Not verified as legitimate; treat as unverified pending independent confirmation."
+malicious/,malicious,malicious/,none,empty,"No confirmed malicious samples currently recorded in this dataset."

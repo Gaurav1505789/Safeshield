@@ -19,15 +19,19 @@ BACKEND_DIR = Path(__file__).resolve().parent
 if str(BACKEND_DIR) not in sys.path:
     sys.path.insert(0, str(BACKEND_DIR))
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, ConfigDict
 
 from analyzer.apk_analyzer import analyze_apk
 from analyzer.message_analyzer import analyze_message
-from analyzer.url_analyzer import analyze_url
 from risk_engine import evaluate_message_risk, message_hash
 from database import analyses_collection
+
+try:
+    from analyzer.url_analyzer import analyze_url
+except ModuleNotFoundError:
+    analyze_url = None
 
 
 # cool
@@ -191,6 +195,12 @@ def analyze_url_endpoint(payload: URLRequest) -> URLAnalysisResponse:
     url = payload.url.strip()
     if not url:
         raise HTTPException(status_code=400, detail="URL cannot be empty.")
+
+    if analyze_url is None:
+        raise HTTPException(
+            status_code=503,
+            detail="URL analysis is unavailable because the URL checker is not installed.",
+        )
 
     analysis = analyze_url(url)
     analysis_id = f"SS-{uuid4().hex[:10].upper()}"

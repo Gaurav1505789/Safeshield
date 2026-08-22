@@ -1,0 +1,252 @@
+:root {
+  --bg: #07131b;
+  --panel: #0d1d2a;
+  --panel-alt: #122b39;
+  --line: rgba(123, 171, 255, 0.2);
+  --text: #eaf6ff;
+  --muted: #a9c4d8;
+  --low: #34d399;
+  --medium: #fbbf24;
+  --high: #f97316;
+  --critical: #ef4444;
+  --accent: #5eead4;
+  --accent-strong: #38bdf8;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-width: 360px;
+  background: linear-gradient(180deg, #07131b 0%, #0b1722 100%);
+  color: var(--text);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  padding: 14px;
+}
+
+.app-shell {
+  width: 100%;
+  background: rgba(10, 20, 30, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 18px 32px var(--shadow);
+  overflow: hidden;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(15, 28, 39, 0.9);
+}
+
+.brand-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  color: #03161d;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.brand-tag {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.privacy-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(94, 234, 212, 0.08);
+  border: 1px solid rgba(94, 234, 212, 0.2);
+  color: var(--accent);
+  font-size: 0.68rem;
+  text-align: center;
+}
+
+.hero-panel {
+  padding: 16px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--muted);
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+}
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--low);
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.9);
+}
+
+.button-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.action-btn {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(18, 43, 57, 0.92), rgba(12, 30, 40, 0.92));
+  color: var(--text);
+  border-radius: 12px;
+  padding: 11px 10px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(94, 234, 212, 0.45);
+  box-shadow: 0 10px 18px rgba(35, 83, 105, 0.25);
+}
+
+.action-btn.primary {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(94, 234, 212, 0.15));
+  border-color: rgba(94, 234, 212, 0.4);
+}
+
+.result-panel {
+  margin: 0 16px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(11, 20, 28, 0.9);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.risk-label,
+.score-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.risk-label.low {
+  background: rgba(52, 211, 153, 0.12);
+  color: var(--low);
+}
+
+.risk-label.medium {
+  background: rgba(251, 191, 36, 0.12);
+  color: var(--medium);
+}
+
+.risk-label.high {
+  background: rgba(249, 115, 22, 0.12);
+  color: var(--high);
+}
+
+.risk-label.critical {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--critical);
+}
+
+.score-label {
+  background: rgba(148, 163, 184, 0.12);
+  color: var(--text);
+}
+
+.result-body {
+  padding: 14px;
+}
+
+.section-block {
+  margin-bottom: 14px;
+}
+
+.section-block:last-child {
+  margin-bottom: 0;
+}
+
+.section-label {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.67rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#risk-score {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
+.content-text {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.reasons-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.evidence-block {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+@media (max-width: 380px) {
+  body {
+    padding: 10px;
+  }
+
+  .button-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .action-btn.primary {
+    grid-column: auto;
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "SafeShield",
+  "version": "0.1.0",
+  "description": "SafeShield AI Cyber Risk Assistant for user-initiated analysis of suspicious WhatsApp content.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://web.whatsapp.com/*"
+  ],
+  "action": {
+    "default_title": "SafeShield",
+    "default_popup": "popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  }
+}

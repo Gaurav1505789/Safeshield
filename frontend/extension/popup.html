@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SafeShield</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">S</div>
+          <div>
+            <p class="brand-name">SafeShield</p>
+            <p class="brand-tag">AI Cyber Risk Assistant</p>
+          </div>
+        </div>
+        <span class="privacy-pill">User-initiated analysis</span>
+      </header>
+
+      <section class="hero-panel">
+        <div class="status-row">
+          <span class="status-dot"></span>
+          <span class="status-text">Privacy-first workflow</span>
+        </div>
+
+        <div class="button-grid" aria-label="Analysis actions">
+          <button class="action-btn" data-action="message" type="button">Analyze Message</button>
+          <button class="action-btn" data-action="url" type="button">Analyze URL</button>
+          <button class="action-btn" data-action="image" type="button">Analyze Image</button>
+          <button class="action-btn" data-action="apk" type="button">Analyze APK</button>
+          <button class="action-btn primary" data-action="report" type="button">Generate Report</button>
+        </div>
+      </section>
+
+      <section class="result-panel" aria-live="polite">
+        <div class="result-header">
+          <span id="risk-label" class="risk-label low">LOW RISK</span>
+          <span id="score-label" class="score-label">0/100</span>
+        </div>
+
+        <div class="result-body">
+          <div class="section-block">
+            <p class="section-label">Risk Score</p>
+            <h2 id="risk-score">0/100</h2>
+          </div>
+
+          <div class="section-block">
+            <p class="section-label">Category</p>
+            <p id="risk-category" class="content-text">No analysis selected</p>
+          </div>
+
+          <div class="section-block">
+            <p class="section-label">Why?</p>
+            <ul id="reasons-list" class="reasons-list">
+              <li>No threat indicators have been evaluated yet.</li>
+            </ul>
+          </div>
+
+          <div class="section-block">
+            <p class="section-label">Recommended Action</p>
+            <p id="recommended-action" class="content-text">Choose an analysis option to begin a user-initiated review.</p>
+          </div>
+
+          <div class="section-block evidence-block">
+            <p class="section-label">Evidence Snapshot</p>
+            <p id="evidence-summary" class="content-text">No evidence captured yet.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

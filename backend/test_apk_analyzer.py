@@ -1,30 +1,45 @@
 from pathlib import Path
+import sys
 
 from analyzer.apk_analyzer import analyze_apk
 
 
-APK_PATH = Path("test_apks/Sample.apk")
-
-
 def main():
+
     print("=" * 60)
     print("SafeShield APK Analyzer Test")
     print("=" * 60)
 
-    print(f"APK path: {APK_PATH}")
+    # --------------------------------------------------------
+    # GET APK PATH FROM COMMAND LINE
+    # --------------------------------------------------------
 
-    if not APK_PATH.exists():
+    if len(sys.argv) < 2:
+        print("Usage:")
+        print('python test_apk_analyzer.py "path\\to\\file.apk"')
+        return
+
+    apk_path = Path(sys.argv[1])
+
+    print(f"APK path: {apk_path}")
+
+    if not apk_path.exists():
         print("ERROR: APK file not found!")
         return
 
-    print(f"APK found: {APK_PATH}")
-    print(f"File size: {APK_PATH.stat().st_size:,} bytes")
+    if apk_path.suffix.lower() != ".apk":
+        print("ERROR: File is not an APK!")
+        return
+
+    print(f"APK found: {apk_path}")
+    print(f"File size: {apk_path.stat().st_size:,} bytes")
     print()
     print("Starting analysis...")
     print()
 
     try:
-        result = analyze_apk(str(APK_PATH))
+
+        result = analyze_apk(str(apk_path))
 
         print("=" * 60)
         print("ANALYSIS RESULT")
@@ -34,6 +49,7 @@ def main():
             print(f"{key}: {value}")
 
     except Exception as e:
+
         print("=" * 60)
         print("ANALYSIS FAILED")
         print("=" * 60)

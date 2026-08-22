@@ -1,5 +1,19 @@
 from datetime import datetime, timezone
+from pathlib import Path
+import sys
+from tempfile import NamedTemporaryFile
 from uuid import uuid4
+import sys
+from pathlib import Path
+
+BACKEND_DIR = Path(__file__).resolve().parent
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
+
+
+BACKEND_DIR = Path(__file__).resolve().parent
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
 
 BACKEND_DIR = Path(__file__).resolve().parent
 if str(BACKEND_DIR) not in sys.path:
@@ -171,6 +185,85 @@ def analyze_message_endpoint(
         rule_confidence=analysis.rule_confidence,
     )
 
+
+@app.post("/analyze/url", response_model=URLAnalysisResponse)
+def analyze_url_endpoint(payload: URLRequest) -> URLAnalysisResponse:
+    url = payload.url.strip()
+    if not url:
+        raise HTTPException(status_code=400, detail="URL cannot be empty.")
+
+    analysis = analyze_url(url)
+    analysis_id = f"SS-{uuid4().hex[:10].upper()}"
+    analysis_document = {
+        "analysis_id": analysis_id,
+        "type": "url",
+        "original_url": url,
+        "normalized_url": analysis.normalized_url,
+        "timestamp": datetime.now(timezone.utc),
+        "risk_score": analysis.risk_score,
+        "risk_level": analysis.risk_level,
+        "category": analysis.category,
+        "verdict": analysis.verdict,
+        "confidence": analysis.confidence,
+        "reasons": analysis.reasons,
+        "detected_indicators": analysis.detected_indicators,
+        "recommendation": analysis.recommendation,
+        "model_prediction": analysis.model_prediction,
+    }
+    try:
+        if analyses_collection is not None:
+            analyses_collection.insert_one(analysis_document)
+    except Exception as error:
+        raise HTTPException(
+            status_code=503,
+            detail="Analysis completed, but the result could not be saved.",
+        ) from error
+
+    return URLAnalysisResponse(
+        analysis_id=analysis_id,
+        original_url=url,
+        normalized_url=analysis.normalized_url,
+        risk_score=analysis.risk_score,
+        risk_level=analysis.risk_level,
+        category=analysis.category,
+        verdict=analysis.verdict,
+        confidence=analysis.confidence,
+        reasons=analysis.reasons,
+        detected_indicators=analysis.detected_indicators,
+        recommendation=analysis.recommendation,
+        model_prediction=analysis.model_prediction,
+        model_confidence=analysis.model_confidence,
+        rule_confidence=analysis.rule_confidence,
+        domain_valid=analysis.domain_valid,
+    )
+
+
+@app.post("/analyze/apk")
+async def analyze_apk_endpoint(file: UploadFile = File(...)):
+    if not file.filename or not file.filename.lower().endswith(".apk"):
+        raise HTTPException(
+            status_code=400,
+            detail="Please upload a valid APK file.",
+        )
+
+    with NamedTemporaryFile(suffix=".apk", delete=False) as temp_file:
+        temp_file.write(await file.read())
+        temp_path = temp_file.name
+
+    try:
+        result = analyze_apk(temp_path)
+        if not result.get("success"):
+            raise HTTPException(
+                status_code=400,
+                detail=result.get("error", "APK analysis failed."),
+            )
+        return result
+    finally:
+        try:
+            import os
+            os.unlink(temp_path)
+        except OSError:
+            pass
 
 if __name__ == "__main__":
     import uvicorn
